@@ -1,38 +1,36 @@
 version: '3.8'
 
 services:
-  erp:
-    build: ./erp
-    container_name: erp
-    ports:
-      - "8000:80"
-    volumes:
-      - ./erp:/var/www/html
-    depends_on:
-      - mysql
-
   mysql:
     image: mysql:8.0
     container_name: mysql_db
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: laravel
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: laravel
+      MYSQL_DATABASE: erp
     ports:
       - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
+
+  app:
+    build: ./app
+    container_name: app
+    ports:
+      - "8000:8000"
+    # volumes:
+    #   - ./app:/var/www/html
+    depends_on:
+      - mysql
 
   rest:
     build: ./rest
     container_name: rest
     ports:
       - "5000:5000"
-    volumes:
-      - ./rest:/app
+    # volumes:
+    #   - ./rest:/app
     depends_on:
-      - erp
+      - app
 
 volumes:
   mysql_data:
