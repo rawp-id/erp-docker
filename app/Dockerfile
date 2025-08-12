@@ -1,9 +1,10 @@
-FROM php:8.3
+FROM php:8.3-fpm-bookworm-slim
 
 # Install dependencies & PHP extensions
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     unzip git curl libpng-dev libonig-dev libxml2-dev libzip-dev zip \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Install FrankenPHP
 RUN curl -fsSL https://frankenphp.dev/install.sh | sh && mv frankenphp /usr/local/bin/
