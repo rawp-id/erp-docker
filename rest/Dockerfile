@@ -1,12 +1,7 @@
-FROM python:3.11-bookworm
+FROM python:3.11-slim
 
-# Use HTTPS for apt sources and update dependencies
-RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list && \
-	apt-get update && \
-	apt-get upgrade -y && \
-	apt-get install -y --no-install-recommends git ca-certificates && \
-	apt-get clean && \
-	rm -rf /var/lib/apt/lists/*
+# Install git and ca-certificates, and update packages
+RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
