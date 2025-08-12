@@ -1,4 +1,4 @@
-FROM debian:bullseye
+FROM debian:bookworm
 
 # Set environment agar Python tidak membuat cache pyc dan output langsung tampil
 ENV PYTHONDONTWRITEBYTECODE=1
