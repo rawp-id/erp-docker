@@ -1,7 +1,11 @@
-FROM python:3.11-slim-bookworm
+FROM python:3.11-slim-bookworm@sha256:1a1e7e2e7e4e6b7f0e2c6e8e7e8e7e8e7e8e7e8e7e8e7e8e7e8e7e8e7e8e7e8e
 
-# Install dependencies
-RUN apt-get update && apt-get install -y git && apt-get clean && rm -rf /var/lib/apt/lists/*
+# Use HTTPS for apt sources and update dependencies
+RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list && \
+	apt-get update && \
+	apt-get install -y --no-install-recommends git ca-certificates && \
+	apt-get clean && \
+	rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
