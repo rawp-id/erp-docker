@@ -1,4 +1,4 @@
-FROM python:3.13-alpine
+FROM python:3.11-alpine
 
 # Install git and ca-certificates, and update packages
 RUN apk add --no-cache git ca-certificates
