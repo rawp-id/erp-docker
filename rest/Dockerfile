@@ -1,7 +1,7 @@
-FROM python:3.11-slim
+FROM python:3.13-alpine
 
 # Install git and ca-certificates, and update packages
-RUN apt-get update && apt-get install -y --no-install-recommends git ca-certificates && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache git ca-certificates
 
 # Set working directory
 WORKDIR /app
