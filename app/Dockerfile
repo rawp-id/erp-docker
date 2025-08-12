@@ -1,14 +1,9 @@
-FROM php:8.3.24-bullseye
-
-RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list \
-    && sed -i 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list \
-    && echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99disable-check-valid-until
+FROM php:8.3.24-fpm-alpine
 
 # Install dependencies & PHP extensions
-RUN apt-get update && apt-get upgrade -y && apt-get install -y \
-    unzip git curl libpng-dev libonig-dev libxml2-dev libzip-dev zip \
-    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache \
+    git curl unzip libpng-dev oniguruma-dev libxml2-dev libzip-dev \
+    && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
 # Install FrankenPHP
 RUN curl -fsSL https://frankenphp.dev/install.sh | sh && mv frankenphp /usr/local/bin/
