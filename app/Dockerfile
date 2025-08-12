@@ -1,4 +1,4 @@
-FROM php:8.3-fpm-bookworm
+FROM php:8.3-bookworm
 
 # Install dependencies & PHP extensions
 RUN apt-get update && apt-get upgrade -y && apt-get install -y \
