@@ -1,9 +1,7 @@
 FROM php:8.3-fpm-bookworm
 
-# Ensure apt uses HTTPS and update CA certificates
-RUN sed -i 's|http://deb.debian.org|https://deb.debian.org|g' /etc/apt/sources.list && \
-    apt-get update && apt-get install -y apt-transport-https ca-certificates && \
-    apt-get update && apt-get upgrade -y && apt-get install -y \
+# Install dependencies & PHP extensions
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
     unzip git curl libpng-dev libonig-dev libxml2-dev libzip-dev zip \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
