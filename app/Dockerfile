@@ -30,5 +30,5 @@ RUN cp .env.example .env \
 EXPOSE 8000
 
 # Start FrankenPHP with Laravel Octane
-CMD ["php", "artisan", "octane:start", "--host=0.0.0.0"]
+CMD ["php", "artisan", "octane:start", "--server=frankenphp", "--host=0.0.0.0", "--port=8000"]
 
