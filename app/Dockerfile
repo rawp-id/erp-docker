@@ -6,7 +6,7 @@ RUN apk add --no-cache \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd zip
 
 # Install FrankenPHP
-RUN curl -fsSL https://frankenphp.dev/install.sh | sh && mv frankenphp /usr/local/bin/
+# RUN curl -fsSL https://frankenphp.dev/install.sh | sh && mv frankenphp /usr/local/bin/
 
 WORKDIR /var/www/html
 
@@ -30,5 +30,6 @@ RUN cp .env.example .env \
 EXPOSE 8000
 
 # Start FrankenPHP with Laravel Octane
-CMD ["php", "artisan", "octane:start", "--server=frankenphp", "--host=0.0.0.0", "--port=8000", "--workers=1"]
+# CMD ["php", "artisan", "octane:start", "--server=frankenphp", "--host=0.0.0.0", "--port=8000", "--workers=1"]
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
 
