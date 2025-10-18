@@ -1,27 +1,35 @@
-FROM python:3.11-slim-bullseye
+# Lean, reproducible, and secure Python runtime
+FROM python:3.14-slim-bookworm
 
-# Ganti sources.list ke archive agar repo lama tetap bisa diakses
-# RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list && \
-#     sed -i 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list && \
-#     echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
+ENV PYTHONDONTWRITEBYTECODE=1 \
+    PYTHONUNBUFFERED=1
 
-# Install only necessary dependencies
-RUN apt-get update && apt-get install -y \
-    git \
-    ca-certificates \
-    && rm -rf /var/lib/apt/lists/*
+# Only necessary system deps
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    git ca-certificates \
+ && rm -rf /var/lib/apt/lists/*
 
-# Set working directory
+# Non-root user and workspace
+RUN useradd --system --create-home --uid 10001 appuser \
+ && mkdir -p /app \
+ && chown -R appuser:appuser /app
 WORKDIR /app
 
-# Clone Flask project dari GitHub
-RUN git clone https://github.com/rawp-id/mps-rest.git .
+# Isolated virtualenv
+RUN python -m venv /venv
+ENV PATH="/venv/bin:$PATH"
 
-# Install Python dependencies
-RUN pip install --no-cache-dir -r requirements.txt
+USER appuser
 
-# Expose port
+# Clone project (pin branch/commit via REF if needed)
+ARG REPO=https://github.com/rawp-id/mps-rest.git
+ARG REF=main
+RUN git clone --depth 1 --branch "${REF}" "${REPO}" /app
+
+# Python deps
+RUN pip install --upgrade pip \
+ && pip install --no-cache-dir -r requirements.txt
+
+# Runtime
 EXPOSE 5000
-
-# Jalankan aplikasi
 CMD ["python", "printing.py", "--host=0.0.0.0"]
