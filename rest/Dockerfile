@@ -5,8 +5,7 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1
 
 # Only necessary system deps
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    git ca-certificates \
+RUN apt-get install git ca-certificates \
  && rm -rf /var/lib/apt/lists/*
 
 # Non-root user and workspace
