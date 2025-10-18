@@ -24,4 +24,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5000
 
 # Jalankan aplikasi
-CMD ["python", "app.py", "--host=0.0.0.0"]
+CMD ["python", "printing.py", "--host=0.0.0.0"]
