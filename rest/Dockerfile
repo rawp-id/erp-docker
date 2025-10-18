@@ -1,4 +1,4 @@
-FROM bitnami/python:3.11-debian-12
+FROM FROM python:3.11-slim-bullseye
 
 # Ganti sources.list ke archive agar repo lama tetap bisa diakses
 # RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list && \
