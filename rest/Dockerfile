@@ -1,4 +1,4 @@
-FROM FROM python:3.11-slim-bullseye
+FROM python:3.11-slim-bullseye
 
 # Ganti sources.list ke archive agar repo lama tetap bisa diakses
 # RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list && \
@@ -6,7 +6,7 @@ FROM FROM python:3.11-slim-bullseye
 #     echo 'Acquire::Check-Valid-Until "false";' > /etc/apt/apt.conf.d/99no-check-valid-until
 
 # Install only necessary dependencies
-RUN apt-get install -y \
+RUN apt-get update && apt-get install -y \
     git \
     ca-certificates \
     && rm -rf /var/lib/apt/lists/*
